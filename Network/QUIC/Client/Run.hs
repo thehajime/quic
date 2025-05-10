@@ -122,7 +122,7 @@ createClientConnection conf@ClientConfig{..} verInfo = do
                 PeerInfo pinfo _ <- readIORef piref
                 void $ NS.sendBufTo s buf siz $ peerSockAddr pinfo
         recv = recvClient q
-    myCID <- newCID
+    myCID <- if ccZeroSCID then CID <$> getRandomBytes 0 else newCID
     -- Creating peer's CIDDB with the temporary CID.  This is
     -- overridden by resetPeerCID later since no sequence number is
     -- assigned to the temporary CID by spec.

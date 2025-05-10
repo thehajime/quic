@@ -105,6 +105,11 @@ data ClientConfig = ClientConfig
     -- Default: 'False'
     , ccServerNameOverride :: Maybe HostName
     -- ^ Used to specify SNI for TLS intead of `ccServerName`.
+    --
+    -- Default: 'False'
+    , ccZeroSCID :: Bool
+    -- ^ If 'True', use zero-length source connection ID instead of
+    -- generated one.
     }
 
 -- | The default value for client configuration.
@@ -133,6 +138,7 @@ defaultClientConfig =
         , ccSockConnected = False
         , ccWatchDog = False
         , ccServerNameOverride = Nothing
+        , ccZeroSCID = False
         }
 
 ----------------------------------------------------------------

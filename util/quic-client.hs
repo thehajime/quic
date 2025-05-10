@@ -45,6 +45,7 @@ data Options = Options
     , optPerformance :: Word64
     , optNumOfReqs :: Int
     , optSockConnected :: Bool
+    , optZeroSCID :: Bool
     }
     deriving (Show)
 
@@ -69,6 +70,7 @@ defaultOptions =
         , optPerformance = 0
         , optNumOfReqs = 1
         , optSockConnected = False
+        , optZeroSCID = False
         }
 
 usage :: String
@@ -181,6 +183,11 @@ options =
         ["use-connected-socket"]
         (NoArg (\o -> o{optSockConnected = True}))
         "use connected sockets instead of unconnected sockets"
+    , Option
+        ['z']
+        ["use-zero-length-src-cid"]
+        (NoArg (\o -> o{optZeroSCID = True}))
+        "use zero-length source connection ID"
     ]
 
 showUsageAndExit :: String -> IO a
@@ -241,6 +248,7 @@ main = do
                         }
                 , ccSockConnected = optSockConnected
                 , ccWatchDog = optSockConnected
+                , ccZeroSCID = optZeroSCID
                 }
         debug
             | optDebugLog = putStrLn
