@@ -79,7 +79,16 @@ jobs:
         key: ${{ steps.params.outputs.cache }}
 
     - name: Build
-      run: cabal build ${{ env.target-config }} all
+      run: cabal build ${{ env.target-config }} all -f devel
+
+    - name: Upload artifact
+      if: matrix.ghc == '9.6'
+      uses: actions/upload-artifact@v4
+      with:
+        path: |
+          dist-newstyle/build/**/quic-client
+          dist-newstyle/build/**/quic-server
+        name: artifact-${{ runner.os }}-${{ runner.arch }}
 
     - name: Run tests
       run: cabal test ${{ env.target-config }} all
